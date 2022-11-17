@@ -1,0 +1,16 @@
+.ftpignore
+.ftpconfig
+.vscode
+
+# Byte-compiled / optimized / DLL files
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*$py.class
+*.swp
+logs/
+
+/datasets
+#/notebooks
+/og3d_src/model/external_tools/pointnet2/build
+/og3d_src/model/external_tools/pointnet2/dist

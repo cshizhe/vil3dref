@@ -1,0 +1,76 @@
+output_dir: ../datasets/referit3d/exprs/gtpcds/exp01
+resume_files: null
+
+world_size: 1
+node_rank: -1
+local_rank: -1
+rank: -1
+
+seed: 0
+num_epoch: 100
+batch_size: 128
+weight_decay: 0.01
+optim: adamw
+learning_rate: 0.0005
+lr_decay: cosine
+txt_encoder_lr_multi: 0.1
+obj_encoder_lr_multi: 1
+betas: [0.9, 0.98]
+warmup_steps: 5000
+grad_norm: 5.0
+num_workers: 4
+val_every_epoch: 1
+
+model:
+  model_type: gtpcd
+  hidden_size: 768
+  dropout: 0.3
+  num_obj_classes: 607
+  obj_encoder:
+    sa_n_points: [32, 16, null]
+    sa_n_samples: [32, 32, null]
+    sa_radii: [0.2, 0.4, null]
+    sa_mlps: [[3, 64, 64, 128], [128, 128, 128, 256], [256, 256, 512, 768]]
+    # sa_mlps: [[0, 64, 64, 128], [128, 128, 128, 256], [256, 256, 512, 768]]
+    dropout: 0.1
+    freeze: true
+    freeze_bn: true
+    dim_loc: 6
+    use_color_enc: false
+  txt_encoder:
+    type: bert
+    num_layers: 3
+    freeze: false
+  mm_encoder:
+    type: cmt
+    spatial_dec: true
+    spatial_multihead: true
+    spatial_dim: 5  # 1, 4, 5
+    spatial_dist_norm: true
+    spatial_attn_fusion: cond  # cond, mul, bias, ctx, add
+    num_layers: 4
+    obj_loc_encoding: same_all # same_0, same_all, diff_all
+    pairwise_rel_type: center
+  losses:
+    obj3d_clf: 1
+    obj3d_clf_pre: 1
+    obj3d_reg: 0
+    txt_clf: 1
+
+dataset:
+  scan_dir: ../datasets/referit3d/scan_data
+  anno_file: ../datasets/referit3d/annotations/bert_tokenized/nr3d.jsonl
+  category_file:  ../datasets/referit3d/annotations/meta_data/scannetv2_raw_categories.json
+  cat2vec_file: null
+  # cat2vec_file: ../datasets/referit3d/annotations/meta_data/cat2glove42b.json
+
+  trn_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_train.txt
+  val_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_val.txt
+  tst_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_test.txt
+
+  num_points: 1024
+  max_txt_len: 50
+  max_obj_len: 80
+  keep_background: false
+  random_rotate: true
+    

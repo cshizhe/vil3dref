@@ -1,0 +1,53 @@
+output_dir: ../datasets/referit3d/exprs/pcd_clf_pre/exp01
+resume_file: null
+
+world_size: 1
+node_rank: -1
+local_rank: -1
+rank: -1
+
+seed: 0
+num_epoch: 100
+batch_size: 16
+weight_decay: 0.01
+optim: adamw
+learning_rate: 0.001
+lr_decay: cosine
+betas: [0.9, 0.98]
+warmup_steps: 1000
+grad_norm: 5.0
+num_workers: 4
+val_every_epoch: 1
+
+model:
+  hidden_size: 768
+  num_obj_classes: 607
+  dropout: 0.3
+  obj_encoder:
+    sa_n_points: [32, 16, null]
+    sa_n_samples: [32, 32, null]
+    sa_radii: [0.2, 0.4, null]
+    sa_mlps: [[3, 64, 64, 128], [128, 128, 128, 256], [256, 256, 512, 768]]
+    # sa_mlps: [[0, 64, 64, 128], [128, 128, 128, 256], [256, 256, 512, 768]]
+    dropout: 0.1
+
+dataset:
+  scan_dir: ../datasets/referit3d/scan_data
+  category_file:  ../datasets/referit3d/annotations/meta_data/scannetv2_raw_categories.json
+  cat2vec_file: null
+  # cat2vec_file: ../datasets/referit3d/annotations/meta_data/cat2glove42b.json
+  og3d_subset_file: null
+  # og3d_subset_file: ../datasets/referit3d/annotations/bert_tokenized/nr3d.jsonl
+
+  trn_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_train.txt
+  val_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_val.txt
+  tst_scan_split: ../datasets/referit3d/annotations/splits/scannetv2_test.txt
+
+  num_points: 1024
+  keep_background: false
+  random_rotate: true
+
+  with_rgb: true
+
+    
+
