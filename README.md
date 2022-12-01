@@ -21,7 +21,7 @@ python setup.py install
 ```
 
 2. Download [preprocessed data](https://www.dropbox.com/s/n0m5bpfvea1fg7w/referit3d.tar.gz?dl=0) and [pretrained models](https://www.dropbox.com/s/5zh8wgt7x2iqq76/exprs_neurips22.tar.gz?dl=0). Put the data in `datasets' directory.
-
+(Some preprocessing codes are in the preprocess/ directory).
 
 
 ## Training
